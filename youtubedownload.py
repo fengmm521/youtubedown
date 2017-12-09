@@ -8,16 +8,6 @@
 import os,sys
 from pytube import YouTube
 
-def main(args):
-    fpth = ''
-    if len(args) == 2 :
-        if os.path.exists(args[1]):
-            fpth = args[1]
-        else:
-            print "请加上要转码的文件路径"
-    else:
-        print "请加上要转码的文件路径"
-
     # def filter(
     #         self, fps=None, res=None, resolution=None, mime_type=None,
     #         type=None, subtype=None, file_extension=None, abr=None,
@@ -51,10 +41,9 @@ def main(args):
 # <Stream: itag="250" mime_type="audio/webm" abr="70kbps" acodec="opus">
 # <Stream: itag="251" mime_type="audio/webm" abr="160kbps" acodec="opus">
 
-def test():
-    turl = 'http://www.youtube.com/watch?v=QJO3ROT-A4E'
 
-    yt = YouTube(turl)
+def downloadWithURL(pURL = 'http://www.youtube.com/watch?v=QJO3ROT-A4E'):
+    yt = YouTube(pURL)
     alllist = yt.streams.all()
     for x in alllist:
         print x
@@ -69,8 +58,15 @@ def test():
     elif p720:
         p720.download('youtubevideo/720p')
 
+def main(args):
+    turl = ''
+    if len(args) == 2 :
+        turl = args[1]
+        downloadWithURL(turl)
+    else:
+        print "未输入要下载的视频URL地址,参考下边样式输入参数来下载:\n"
+        print 'python youtubedownload.py 要下载的视频地址'
 
 if __name__ == '__main__':
-    # main(sys.argv)
-    test()
+    main(sys.argv)
     
