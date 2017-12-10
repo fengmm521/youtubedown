@@ -8,6 +8,8 @@
 import os,sys
 from pytube import YouTube
 
+reload(sys)
+sys.setdefaultencoding( "utf-8" )
     # def filter(
     #         self, fps=None, res=None, resolution=None, mime_type=None,
     #         type=None, subtype=None, file_extension=None, abr=None,
@@ -41,27 +43,41 @@ from pytube import YouTube
 # <Stream: itag="250" mime_type="audio/webm" abr="70kbps" acodec="opus">
 # <Stream: itag="251" mime_type="audio/webm" abr="160kbps" acodec="opus">
 
+def makeMoive(ptitle,videoType = '1080p',outpth = 'out'):
+    cmd = '/usr/local/bin/ffmpeg ffmpeg -i "%s/%s.mp4" -i "audio/%s.mp4" -vcodec copy -acodec copy "%s/%s.mp4"'%(videoType,ptitle,ptitle,outpth,ptitle)
+    os.system(cmd)
 
-def downloadWithURL(pURL = 'http://www.youtube.com/watch?v=QJO3ROT-A4E'):
+def downloadWithURL(pURL = 'https://www.youtube.com/watch?v=cmSbXsFE3l8'):
     yt = YouTube(pURL)
     alllist = yt.streams.all()
-    for x in alllist:
-        print x
+    # for x in alllist:
+        # print x
     p1080 = yt.streams.filter(res='1080p', file_extension='mp4').first()
     p720 = yt.streams.filter(res='720p', file_extension='mp4').first()
     abr128k = yt.streams.filter(abr="128kbps", file_extension='mp4').first()
+    # print p1080.player_config['args']['title'].encode('utf-8')
+    # print abr128k.player_config['args']['title'].encode('utf-8')
     if abr128k:
+        # abr128k.player_config['args']['title'] = abr128k.player_config['args']['title'].encode('utf-8')
         abr128k.download('audio')
+
     if p1080:
         print p1080
-        p1080.download('youtubevideo/1080p')
+        # p1080.player_config['args']['title'] = p1080.player_config['args']['title'].encode('utf-8')
+        p1080.download('1080p')
+
+        makeMoive(p1080.player_config['args']['title'])
     elif p720:
-        p720.download('youtubevideo/720p')
+        # p720.player_config['args']['title'] = p1080.player_config['args']['title'].encode('utf-8')
+        p720.download('720p')
+        makeMoive(p1080.player_config['args']['title'],'720p')
+
 
 def main(args):
     turl = ''
     if len(args) == 2 :
         turl = args[1]
+        print turl
         downloadWithURL(turl)
     else:
         print "未输入要下载的视频URL地址,参考下边样式输入参数来下载:\n"
@@ -69,4 +85,5 @@ def main(args):
 
 if __name__ == '__main__':
     main(sys.argv)
+    # downloadWithURL()
     
