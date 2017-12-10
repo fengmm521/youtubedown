@@ -8,6 +8,8 @@
 import os,sys
 from pytube import YouTube
 
+# print sys.path.append('/usr/local/Cellar')
+
 reload(sys)
 sys.setdefaultencoding( "utf-8" )
     # def filter(
@@ -44,7 +46,12 @@ sys.setdefaultencoding( "utf-8" )
 # <Stream: itag="251" mime_type="audio/webm" abr="160kbps" acodec="opus">
 
 def makeMoive(ptitle,videoType = '1080p',outpth = 'out'):
-    cmd = '/usr/local/bin/ffmpeg ffmpeg -i "%s/%s.mp4" -i "audio/%s.mp4" -vcodec copy -acodec copy "%s/%s.mp4"'%(videoType,ptitle,ptitle,outpth,ptitle)
+    # savename = ptitle.replace('"','').replace("'","").replace('“','').replace('”', '').replace('’', '')
+    cmd = u'/usr/local/bin/ffmpeg -i "%s/video.mp4" -i "audio/audio.mp4" -vcodec copy -acodec copy "tmp/output.mp4"'%(videoType)
+    print cmd
+    os.system(cmd)
+
+    cmd = 'mv "tmp/output.mp4" "%s/%s.mp4"'%(outpth,ptitle)
     print cmd
     os.system(cmd)
 
@@ -62,28 +69,47 @@ def downloadWithURL(pURL = 'https://www.youtube.com/watch?v=cmSbXsFE3l8',outpth 
     audiopth = ''
     if abr128k:
         # abr128k.player_config['args']['title'] = abr128k.player_config['args']['title'].encode('utf-8')
-        abr128k.download('audio')
-        audiopth = 'audio/' + abr128k.player_config['args']['title'].encode('utf-8')
+        # 
+        
+        audiopth = 'audio/audio.mp4'
 
+        title = abr128k.player_config['args']['title'].encode('utf-8')
+
+        abr128k.player_config['args']['title'] = 'audio'
+
+        print 'title:',title
+
+        print 'start downloading audio...'
+
+        abr128k.download('audio')
+        
     videopth = ''
     if p1080:
-        print p1080
-        # p1080.player_config['args']['title'] = p1080.player_config['args']['title'].encode('utf-8')
-        p1080.download('1080p')
+        print 'start downloading video 1080p...'
         
-        videopth = '1080p/' + p1080.player_config['args']['title'].encode('utf-8')
+        title +='_1080p'
 
-        title = ''
+        p1080.player_config['args']['title'] = 'video'
 
-        makeMoive(p1080.player_config['args']['title'],'1080p',outpth)
+        videopth = '1080p/video.mp4'
+
+        p1080.download('1080p')
+
+        makeMoive(title,'1080p',outpth)
 
     elif p720:
-        # p720.player_config['args']['title'] = p1080.player_config['args']['title'].encode('utf-8')
+
+        print 'start downloading video 720p...'
+
+        title +='_720p'
+
+        p720.player_config['args']['title'] = 'video'
+
+        videopth = '720p/video.mp4'
+
         p720.download('720p')
-
-        videopth = '720p/' + p720.player_config['args']['title'].encode('utf-8')
-
-        makeMoive(p720.player_config['args']['title'].encode('utf-8'),'720p',outpth)
+        
+        makeMoive(title,'720p',outpth)
 
     os.remove(audiopth)
     os.remove(videopth)
@@ -109,4 +135,5 @@ def main(args):
 if __name__ == '__main__':
     main(sys.argv)
     # downloadWithURL()
+    # makeMoive(u'Anna Kendrick - Cups (Pitch Perfect’s “When I’m Gone”)','1080p','out')
     
