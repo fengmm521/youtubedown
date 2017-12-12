@@ -118,6 +118,14 @@ def isHeaveMp4File(title,savepth):
             return True
     return False
 
+
+def isHeaveMp4FileInMTVDir(title):
+    fs = getAllExtFile('/Volumes/mage/moive/mtv')
+    for f in fs:
+        if f[2].find(title) != -1:
+            return True
+    return False
+
 def downloadWithURL(pURL = 'https://www.youtube.com/watch?v=cmSbXsFE3l8',outpth = 'out'):
     yt = YouTube(pURL)
     alllist = yt.streams.all()
@@ -140,6 +148,9 @@ def downloadWithURL(pURL = 'https://www.youtube.com/watch?v=cmSbXsFE3l8',outpth 
 
         if isHeaveMp4File(title, outpth):
             print '(%s) title is heave in %s'%(title,outpth)
+            return
+        if isHeaveMp4FileInMTVDir(title):
+            print '(%s) title is heave in MTV dir(/Volumes/mage/moive/mtv)'%(title)
             return
 
         abr128k.player_config['args']['title'] = 'audio'
