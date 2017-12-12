@@ -12,6 +12,61 @@ from pytube import YouTube
 
 reload(sys)
 sys.setdefaultencoding( "utf-8" )
+
+
+#获取脚本路径
+def cur_file_dir():
+    pathx = sys.argv[0]
+    tmppath,_file = os.path.split(pathx)
+    if cmp(tmppath,'') == 0:
+        tmppath = sys.path[0]
+    #判断为脚本文件还是py2exe编译后的文件，如果是脚本文件，则返回的是脚本的目录，如果是py2exe编译后的文件，则返回的是编译后的文件路径
+    if os.path.isdir(tmppath):
+        return tmppath
+    elif os.path.isfile(tmppath):
+        return os.path.dirname(tmppath)
+    
+#获取父目录
+def GetParentPath(strPath):
+    if not strPath:
+        return None;
+    lsPath = os.path.split(strPath);
+    if lsPath[1]:
+        return lsPath[0];
+    lsPath = os.path.split(lsPath[0]);
+    return lsPath[0];
+
+#获取目录下的所有类型文件
+def getAllExtFile(pth,fromatx = ".mp4"):
+    jsondir = pth
+    jsonfilelist = []
+    for root, _dirs, files in os.walk(jsondir):
+        for filex in files:          
+            #print filex
+            name,text = os.path.splitext(filex)
+            if cmp(text,fromatx) == 0:
+                jsonArr = []
+                rootdir = pth
+                dirx = root[len(rootdir):]
+                pathName = dirx +os.sep + filex
+                jsonArr.append(pathName)
+                (newPath,_name) = os.path.split(pathName)
+                jsonArr.append(newPath)
+                jsonArr.append(name)
+                jsonfilelist.append(jsonArr)
+            elif fromatx == ".*" :
+                jsonArr = []
+                rootdir = pth
+                dirx = root[len(rootdir):]
+                pathName = dirx +os.sep + filex
+                jsonArr.append(pathName)
+                (newPath,_name) = os.path.split(pathName)
+                jsonArr.append(newPath)
+                jsonArr.append(name)
+                jsonfilelist.append(jsonArr)
+    return jsonfilelist
+
+
     # def filter(
     #         self, fps=None, res=None, resolution=None, mime_type=None,
     #         type=None, subtype=None, file_extension=None, abr=None,
@@ -55,6 +110,14 @@ def makeMoive(ptitle,videoType = '1080p',outpth = 'out'):
     print cmd
     os.system(cmd)
 
+
+def isHeaveMp4File(title,savepth):
+    fs = getAllExtFile(savepth)
+    for f in fs:
+        if f[2].find(title) != -1:
+            return True
+    return False
+
 def downloadWithURL(pURL = 'https://www.youtube.com/watch?v=cmSbXsFE3l8',outpth = 'out'):
     yt = YouTube(pURL)
     alllist = yt.streams.all()
@@ -74,6 +137,10 @@ def downloadWithURL(pURL = 'https://www.youtube.com/watch?v=cmSbXsFE3l8',outpth 
         audiopth = 'audio/audio.mp4'
 
         title = abr128k.player_config['args']['title'].encode('utf-8')
+
+        if isHeaveMp4File(title, outpth):
+            print '(%s) title is heave in %s'%(title,outpth)
+            return
 
         abr128k.player_config['args']['title'] = 'audio'
 
