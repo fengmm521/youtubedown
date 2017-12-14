@@ -192,18 +192,50 @@ def downloadWithURL(pURL = 'https://www.youtube.com/watch?v=cmSbXsFE3l8',outpth 
     os.remove(audiopth)
     os.remove(videopth)
 
+
+#下载一个文件中的所有视频,每一个视频地址一行
+def downLoadWithList(turlsFilePth,outpth = 'out'):
+    if not os.path.exists(turlsFilePth):
+        print '下载视频地址列表文件错误.查看是否存在文件:%s'%(turlsFilePth)
+        return
+    f = open(turlsFilePth,'r')
+    lines = f.readlines()
+    f.close()
+
+    turls = []
+    for l in lines:
+        ltmp = l.replace('\r','')
+        ltmp = ltmp.replace('\n','')
+        if len(ltmp) > 10 and (ltmp[:7] == 'http://' or ltmp[:8]) == 'https://':
+            print ltmp
+            turls.append(ltmp)
+    count = len(turls)
+    downcount = 0
+    for u in turls:
+        downcount += 1
+        print 'strat downloading %d/%d'%(downcount,count)
+        print u
+        downloadWithURL(u,outpth)
+
 def main(args):
     turl = ''
     if len(args) == 2 :
         turl = args[1]
         print turl
-        downloadWithURL(turl)
+        if turl[:7] == 'http://' or turl[:8] == 'https://':
+            downloadWithURL(turl)
+        elif turl[-4:] == '.txt':
+            downLoadWithList(turl)
+        
     elif len(args) == 3:
         turl = args[1]
         outpth = args[2]
         print turl
         print outpth
-        downloadWithURL(turl,outpth)
+        if turl[:7] == 'http://' or turl[:8] == 'https://':
+            downloadWithURL(turl,outpth)
+        elif turl[-4:] == '.txt':
+            downLoadWithList(turl,outpth)
     else:
         print "未输入要下载的视频URL地址,参考下边样式输入参数来下载:\n"
         print 'python youtubedownload.py 要下载的视频地址'
