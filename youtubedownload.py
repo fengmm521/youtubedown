@@ -101,6 +101,13 @@ def getAllExtFile(pth,fromatx = ".mp4"):
 # <Stream: itag="251" mime_type="audio/webm" abr="160kbps" acodec="opus">
 
 def makeMoive(ptitle,videoType = '1080p',outpth = 'out'):
+
+    if not os.path.exists('tmp'):
+        os.mkdir('tmp')
+
+    if (not os.path.exists('out')) and outpth == 'out':
+        os.mkdir('out')
+        
     # savename = ptitle.replace('"','').replace("'","").replace('“','').replace('”', '').replace('’', '')
     cmd = u'/usr/local/bin/ffmpeg -i "%s/video.mp4" -i "audio/audio.mp4" -vcodec copy -acodec copy "tmp/output.mp4"'%(videoType)
     print cmd
@@ -110,6 +117,10 @@ def makeMoive(ptitle,videoType = '1080p',outpth = 'out'):
     print cmd
     os.system(cmd)
 
+    if os.path.exists('tmp/output.mp4'):
+        os.remove('tmp/output.mp4')
+
+        
 
 def isHeaveMp4File(title,savepth):
     fs = getAllExtFile(savepth)
@@ -131,9 +142,18 @@ def downloadWithURL(pURL = 'https://www.youtube.com/watch?v=cmSbXsFE3l8',outpth 
     alllist = yt.streams.all()
     # for x in alllist:
         # print x
+
     p1080 = yt.streams.filter(res='1080p', file_extension='mp4').first()
     p720 = yt.streams.filter(res='720p', file_extension='mp4').first()
+    p480 = yt.streams.filter(res='480p', file_extension='mp4').first()
+    p360 = yt.streams.filter(res='360p', file_extension='mp4').first()
+    p240 = yt.streams.filter(res='240p', file_extension='mp4').first()
+    p144 = yt.streams.filter(res='144p', file_extension='mp4').first()
+
+
     abr128k = yt.streams.filter(abr="128kbps", file_extension='mp4').first()
+    if not abr128k:
+        abr128k = yt.streams.filter(mime_type="audio/mp4", file_extension='mp4').first()
     # print p1080.player_config['args']['title'].encode('utf-8')
     # print abr128k.player_config['args']['title'].encode('utf-8')
     title = ''
@@ -141,6 +161,8 @@ def downloadWithURL(pURL = 'https://www.youtube.com/watch?v=cmSbXsFE3l8',outpth 
     if abr128k:
         # abr128k.player_config['args']['title'] = abr128k.player_config['args']['title'].encode('utf-8')
         # 
+        if not os.path.exists('audio'):
+            os.mkdir('audio')
         
         audiopth = 'audio/audio.mp4'
 
@@ -163,6 +185,8 @@ def downloadWithURL(pURL = 'https://www.youtube.com/watch?v=cmSbXsFE3l8',outpth 
         
     videopth = ''
     if p1080:
+        if not os.path.exists('1080p'):
+            os.mkdir('1080p')
         print 'start downloading video 1080p...'
         
         title +='_1080p'
@@ -176,7 +200,8 @@ def downloadWithURL(pURL = 'https://www.youtube.com/watch?v=cmSbXsFE3l8',outpth 
         makeMoive(title,'1080p',outpth)
 
     elif p720:
-
+        if not os.path.exists('720p'):
+            os.mkdir('720p')
         print 'start downloading video 720p...'
 
         title +='_720p'
@@ -188,9 +213,72 @@ def downloadWithURL(pURL = 'https://www.youtube.com/watch?v=cmSbXsFE3l8',outpth 
         p720.download('720p')
         
         makeMoive(title,'720p',outpth)
+    elif p480:
+        if not os.path.exists('480p'):
+            os.mkdir('480p')
+        print 'start downloading video 480p...'
 
-    os.remove(audiopth)
-    os.remove(videopth)
+        title +='_480p'
+
+        p480.player_config['args']['title'] = 'video'
+
+        videopth = '480p/video.mp4'
+
+        p480.download('480p')
+        
+        makeMoive(title,'480p',outpth)
+    elif p360:
+        if not os.path.exists('360p'):
+            os.mkdir('360p')
+        print 'start downloading video p360...'
+
+        title +='_p360'
+
+        p360.player_config['args']['title'] = 'video'
+
+        videopth = 'p360/video.mp4'
+
+        p360.download('360p')
+        
+        makeMoive(title,'360p',outpth)
+    elif p240:
+        if not os.path.exists('240p'):
+            os.mkdir('240p')
+        print 'start downloading video 240p...'
+
+        title +='_240p'
+
+        p240.player_config['args']['title'] = 'video'
+
+        videopth = '240p/video.mp4'
+
+        p240.download('240p')
+        
+        makeMoive(title,'240p',outpth)
+    elif p144:
+        if not os.path.exists('144p'):
+            os.mkdir('144p')
+        print 'start downloading video 144p...'
+
+        title +='_144p'
+
+        p144.player_config['args']['title'] = 'video'
+
+        videopth = '144p/video.mp4'
+
+        p144.download('144p')
+        
+        makeMoive(title,'144p',outpth)
+    else:
+        print 'not video'
+
+    print audiopth
+    print videopth
+
+    if os.path.exists(audiopth):
+        os.remove(audiopth)
+    if os.path.exists(videopth):
+        os.remove(videopth)
 
 
 #下载一个文件中的所有视频,每一个视频地址一行

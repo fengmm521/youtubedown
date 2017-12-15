@@ -1,1 +1,0 @@
-ffmpeg -i tmp/video.mp4 -i tmp/audio.mp4 -vcodec copy -acodec copy tmp/output.mp4
