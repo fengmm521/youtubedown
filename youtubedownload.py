@@ -152,17 +152,18 @@ def downloadWithURL(pURL = 'https://www.youtube.com/watch?v=cmSbXsFE3l8',outpth 
 
 
     abr128k = yt.streams.filter(abr="128kbps", file_extension='mp4').first()
-    if not abr128k:
-        abr128k = yt.streams.filter(mime_type="audio/mp4", file_extension='mp4').first()
+
     # print p1080.player_config['args']['title'].encode('utf-8')
     # print abr128k.player_config['args']['title'].encode('utf-8')
     title = ''
     audiopth = ''
+
     if abr128k:
         # abr128k.player_config['args']['title'] = abr128k.player_config['args']['title'].encode('utf-8')
         # 
         if not os.path.exists('audio'):
             os.mkdir('audio')
+
         
         audiopth = 'audio/audio.mp4'
 
@@ -175,13 +176,27 @@ def downloadWithURL(pURL = 'https://www.youtube.com/watch?v=cmSbXsFE3l8',outpth 
             print '(%s) title is heave in MTV dir(/Volumes/mage/moive/mtv)'%(title)
             return
 
-        abr128k.player_config['args']['title'] = 'audio'
+        try:
+            abr128k.player_config['args']['title'] = 'audio'
 
-        print 'title:',title
+            print 'title:',title
 
-        print 'start downloading audio...'
+            print 'start downloading audio 128k...'
 
-        abr128k.download('audio')
+            abr128k.download('audio')
+
+        except Exception as e:
+
+            print 'download 128 erro,and redownload with other mp4 type'
+
+            abr128k = yt.streams.filter(mime_type="audio/mp4", file_extension='mp4').first()
+
+            abr128k.player_config['args']['title'] = 'audio'
+
+            print 'start downloading audio other mp4 type ...'
+
+            abr128k.download('audio')
+        
         
     videopth = ''
     if p1080:
@@ -230,13 +245,13 @@ def downloadWithURL(pURL = 'https://www.youtube.com/watch?v=cmSbXsFE3l8',outpth 
     elif p360:
         if not os.path.exists('360p'):
             os.mkdir('360p')
-        print 'start downloading video p360...'
+        print 'start downloading video 360p...'
 
-        title +='_p360'
+        title +='_360p'
 
         p360.player_config['args']['title'] = 'video'
 
-        videopth = 'p360/video.mp4'
+        videopth = '360p/video.mp4'
 
         p360.download('360p')
         
