@@ -18,3 +18,6 @@ ffmpeg -i 视频路径 -i 音频路径 -vcodec copy -acodec copy 合成后输出
 其中输出和输入文件编码格式由上边各种路径文件后缀来确定文件格式
 音视频转码以及合成参考：
 http://blog.csdn.net/jinzheng069/article/details/9252653
+
+mp4中的音频转码为mp3
+ffmpeg -i input.mp4 -f mp3 -vn output.mp3
