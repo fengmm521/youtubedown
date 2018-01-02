@@ -140,8 +140,8 @@ def isHeaveMp4FileInMTVDir(title):
 def downloadWithURL(pURL = 'https://www.youtube.com/watch?v=cmSbXsFE3l8',outpth = 'out'):
     yt = YouTube(pURL)
     alllist = yt.streams.all()
-    # for x in alllist:
-        # print x
+    for x in alllist:
+        print x
 
     p1080 = yt.streams.filter(res='1080p', file_extension='mp4').first()
     p720 = yt.streams.filter(res='720p', file_extension='mp4').first()
@@ -169,6 +169,8 @@ def downloadWithURL(pURL = 'https://www.youtube.com/watch?v=cmSbXsFE3l8',outpth 
 
         title = abr128k.player_config['args']['title'].encode('utf-8')
 
+        title = title.replace('/','')
+        
         if isHeaveMp4File(title, outpth):
             print '(%s) title is heave in %s'%(title,outpth)
             return
@@ -197,7 +199,30 @@ def downloadWithURL(pURL = 'https://www.youtube.com/watch?v=cmSbXsFE3l8',outpth 
 
             abr128k.download('audio')
         
-        
+    else:
+
+        videoandaudio = yt.streams.first()
+        title = videoandaudio.player_config['args']['title'].encode('utf-8')
+
+        title = title.replace('/','')
+
+        print 'title:',title
+
+        if isHeaveMp4File(title, outpth):
+            print '(%s) title is heave in %s'%(title,outpth)
+            return
+        if isHeaveMp4FileInMTVDir(title):
+            print '(%s) title is heave in MTV dir(/Volumes/mage/moive/mtv)'%(title)
+            return
+
+        videoandaudio.player_config['args']['title'] = title
+
+        print 'start downloading voide and audio to out ...'
+
+        videoandaudio.download(outpth)
+
+        return
+
     videopth = ''
     if p1080:
         if not os.path.exists('1080p'):
