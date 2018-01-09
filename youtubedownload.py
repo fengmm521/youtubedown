@@ -320,7 +320,52 @@ def downloadWithURL(pURL = 'https://www.youtube.com/watch?v=cmSbXsFE3l8',outpth 
     if os.path.exists(videopth):
         os.remove(videopth)
 
+def downloadWithURL1Stream(pURL = 'https://www.youtube.com/watch?v=cmSbXsFE3l8',outpth = 'out'):
+    yt = YouTube(pURL)
+    downvideo = yt.streams.first()
 
+    if not os.path.exists('tmp'):
+        os.mkdir('tmp')
+
+    title = downvideo.player_config_args['title'].encode('utf-8')
+
+    title = title.replace('/','')
+        
+    savetmppth = 'tmp/out.mp4'
+
+    if isHeaveMp4File(title, outpth):
+        print '(%s) title is heave in %s'%(title,outpth)
+        return
+    if isHeaveMp4FileInMTVDir(title):
+        print '(%s) title is heave in MTV dir(/Volumes/mage/moive/mtv)'%(title)
+        return    
+
+    try:
+        downvideo.player_config_args['title'] = 'out'
+
+        print 'title:',title
+
+        print 'start downloading Video and Audio ...'
+
+        downvideo.download('tmp')
+
+    except Exception as e:
+
+        downvideo.player_config_args['title'] = 'out'
+
+        print 'start downloading Video and Audio erro and redownload...'
+
+        downvideo.download('tmp')
+
+    print savetmppth
+
+    cmd = 'mv "tmp/out.mp4" "%s/%s.mp4"'%(outpth,ptitle)
+    print cmd
+    os.system(cmd)
+
+    if os.path.exists(savetmppth):
+        os.remove(savetmppth)
+        
 #下载一个文件中的所有视频,每一个视频地址一行
 def downLoadWithList(turlsFilePth,outpth = 'out'):
     if not os.path.exists(turlsFilePth):
@@ -360,10 +405,15 @@ def main(args):
         outpth = args[2]
         print turl
         print outpth
-        if turl[:7] == 'http://' or turl[:8] == 'https://':
-            downloadWithURL(turl,outpth)
-        elif turl[-4:] == '.txt':
-            downLoadWithList(turl,outpth)
+        if outpth == '1':
+            downloadWithURL1Stream(turl)
+        else:
+            if turl[:7] == 'http://' or turl[:8] == 'https://':
+                downloadWithURL(turl,outpth)
+            elif turl[-4:] == '.txt':
+                downLoadWithList(turl,outpth)
+            else:
+                print '下载地址输入错误:%s'%(turl)
     else:
         print "未输入要下载的视频URL地址,参考下边样式输入参数来下载:\n"
         print 'python youtubedownload.py 要下载的视频地址'
