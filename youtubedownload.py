@@ -153,13 +153,13 @@ def downloadWithURL(pURL = 'https://www.youtube.com/watch?v=cmSbXsFE3l8',outpth 
 
     abr128k = yt.streams.filter(abr="128kbps", file_extension='mp4').first()
 
-    # print p1080.player_config['args']['title'].encode('utf-8')
-    # print abr128k.player_config['args']['title'].encode('utf-8')
+    # print p1080.player_config_args['title'].encode('utf-8')
+    # print abr128k.player_config_args['title'].encode('utf-8')
     title = ''
     audiopth = ''
 
     if abr128k:
-        # abr128k.player_config['args']['title'] = abr128k.player_config['args']['title'].encode('utf-8')
+        # abr128k.player_config_args['title'] = abr128k.player_config_args['title'].encode('utf-8')
         # 
         if not os.path.exists('audio'):
             os.mkdir('audio')
@@ -167,7 +167,7 @@ def downloadWithURL(pURL = 'https://www.youtube.com/watch?v=cmSbXsFE3l8',outpth 
         
         audiopth = 'audio/audio.mp4'
 
-        title = abr128k.player_config['args']['title'].encode('utf-8')
+        title = abr128k.player_config_args['title'].encode('utf-8')
 
         title = title.replace('/','')
         
@@ -179,7 +179,7 @@ def downloadWithURL(pURL = 'https://www.youtube.com/watch?v=cmSbXsFE3l8',outpth 
             return
 
         try:
-            abr128k.player_config['args']['title'] = 'audio'
+            abr128k.player_config_args['title'] = 'audio'
 
             print 'title:',title
 
@@ -193,7 +193,7 @@ def downloadWithURL(pURL = 'https://www.youtube.com/watch?v=cmSbXsFE3l8',outpth 
 
             abr128k = yt.streams.filter(mime_type="audio/mp4", file_extension='mp4').first()
 
-            abr128k.player_config['args']['title'] = 'audio'
+            abr128k.player_config_args['title'] = 'audio'
 
             print 'start downloading audio other mp4 type ...'
 
@@ -202,7 +202,7 @@ def downloadWithURL(pURL = 'https://www.youtube.com/watch?v=cmSbXsFE3l8',outpth 
     else:
 
         videoandaudio = yt.streams.first()
-        title = videoandaudio.player_config['args']['title'].encode('utf-8')
+        title = videoandaudio.player_config_args['title'].encode('utf-8')
 
         title = title.replace('/','')
 
@@ -215,7 +215,7 @@ def downloadWithURL(pURL = 'https://www.youtube.com/watch?v=cmSbXsFE3l8',outpth 
             print '(%s) title is heave in MTV dir(/Volumes/mage/moive/mtv)'%(title)
             return
 
-        videoandaudio.player_config['args']['title'] = title
+        videoandaudio.player_config_args['title'] = title
 
         print 'start downloading voide and audio to out ...'
 
@@ -231,7 +231,7 @@ def downloadWithURL(pURL = 'https://www.youtube.com/watch?v=cmSbXsFE3l8',outpth 
         
         title +='_1080p'
 
-        p1080.player_config['args']['title'] = 'video'
+        p1080.player_config_args['title'] = 'video'
 
         videopth = '1080p/video.mp4'
 
@@ -246,7 +246,7 @@ def downloadWithURL(pURL = 'https://www.youtube.com/watch?v=cmSbXsFE3l8',outpth 
 
         title +='_720p'
 
-        p720.player_config['args']['title'] = 'video'
+        p720.player_config_args['title'] = 'video'
 
         videopth = '720p/video.mp4'
 
@@ -260,7 +260,7 @@ def downloadWithURL(pURL = 'https://www.youtube.com/watch?v=cmSbXsFE3l8',outpth 
 
         title +='_480p'
 
-        p480.player_config['args']['title'] = 'video'
+        p480.player_config_args['title'] = 'video'
 
         videopth = '480p/video.mp4'
 
@@ -274,7 +274,7 @@ def downloadWithURL(pURL = 'https://www.youtube.com/watch?v=cmSbXsFE3l8',outpth 
 
         title +='_360p'
 
-        p360.player_config['args']['title'] = 'video'
+        p360.player_config_args['title'] = 'video'
 
         videopth = '360p/video.mp4'
 
@@ -288,7 +288,7 @@ def downloadWithURL(pURL = 'https://www.youtube.com/watch?v=cmSbXsFE3l8',outpth 
 
         title +='_240p'
 
-        p240.player_config['args']['title'] = 'video'
+        p240.player_config_args['title'] = 'video'
 
         videopth = '240p/video.mp4'
 
@@ -302,7 +302,7 @@ def downloadWithURL(pURL = 'https://www.youtube.com/watch?v=cmSbXsFE3l8',outpth 
 
         title +='_144p'
 
-        p144.player_config['args']['title'] = 'video'
+        p144.player_config_args['title'] = 'video'
 
         videopth = '144p/video.mp4'
 
