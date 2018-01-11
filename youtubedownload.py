@@ -142,7 +142,7 @@ def downloadWithURL(pURL = 'https://www.youtube.com/watch?v=cmSbXsFE3l8',outpth 
     alllist = yt.streams.all()
     for x in alllist:
         print x
-    p1440 = yt.streams.filter(res='1440p', file_extension='mp4').first()
+
     p1080 = yt.streams.filter(res='1080p', file_extension='mp4').first()
     p720 = yt.streams.filter(res='720p', file_extension='mp4').first()
     p480 = yt.streams.filter(res='480p', file_extension='mp4').first()
@@ -224,22 +224,7 @@ def downloadWithURL(pURL = 'https://www.youtube.com/watch?v=cmSbXsFE3l8',outpth 
         return
 
     videopth = ''
-    if p1440:
-        if not os.path.exists('1440p'):
-            os.mkdir('1440p')
-        print 'start downloading video 1440p...'
-        
-        title +='_1440p'
-
-        p1440.player_config_args['title'] = 'video'
-
-        videopth = '1440p/video.mp4'
-
-        p1440.download('1440p')
-
-        makeMoive(title,'1440p',outpth)
-
-    elif p1080:
+    if p1080:
         if not os.path.exists('1080p'):
             os.mkdir('1080p')
         print 'start downloading video 1080p...'
