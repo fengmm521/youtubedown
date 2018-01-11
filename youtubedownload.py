@@ -494,14 +494,14 @@ def downloadWithURLFor4K(pURL = 'https://www.youtube.com/watch?v=cmSbXsFE3l8',ou
         
         title +='_%s'%(videopstr)
 
-        p1080.player_config_args['title'] = 'video'
+        videoStream.player_config_args['title'] = 'video'
 
         videopth = '%s/video%s'%(videopstr,vodeotype)
 
         if os.path.exists(videopth):
             os.remove(videopth)
 
-        p1080.download(videopstr)
+        videoStream.download(videopstr)
 
         makeMoiveFor4k(title,videopstr,outpth,vodeotype)
     else:
