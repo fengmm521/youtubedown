@@ -320,6 +320,196 @@ def downloadWithURL(pURL = 'https://www.youtube.com/watch?v=cmSbXsFE3l8',outpth 
     if os.path.exists(videopth):
         os.remove(videopth)
 
+# https://www.youtube.com/watch?v=CMXiCR2gQw0
+# <Stream: itag="22" mime_type="video/mp4" res="720p" fps="30fps" vcodec="avc1.64001F" acodec="mp4a.40.2">
+# <Stream: itag="43" mime_type="video/webm" res="360p" fps="30fps" vcodec="vp8.0" acodec="vorbis">
+# <Stream: itag="18" mime_type="video/mp4" res="360p" fps="30fps" vcodec="avc1.42001E" acodec="mp4a.40.2">
+# <Stream: itag="36" mime_type="video/3gpp" res="240p" fps="30fps" vcodec="mp4v.20.3" acodec="mp4a.40.2">
+# <Stream: itag="17" mime_type="video/3gpp" res="144p" fps="30fps" vcodec="mp4v.20.3" acodec="mp4a.40.2">
+
+# <Stream: itag="313" mime_type="video/webm" res="2160p" fps="30fps" vcodec="vp9">
+
+# <Stream: itag="264" mime_type="video/mp4" res="144p" fps="30fps" vcodec="avc1.640032">
+# <Stream: itag="271" mime_type="video/webm" res="144p" fps="30fps" vcodec="vp9">
+# <Stream: itag="137" mime_type="video/mp4" res="1080p" fps="30fps" vcodec="avc1.640028">
+# <Stream: itag="248" mime_type="video/webm" res="1080p" fps="30fps" vcodec="vp9">
+# <Stream: itag="136" mime_type="video/mp4" res="720p" fps="30fps" vcodec="avc1.4d401f">
+# <Stream: itag="247" mime_type="video/webm" res="720p" fps="30fps" vcodec="vp9">
+# <Stream: itag="135" mime_type="video/mp4" res="480p" fps="30fps" vcodec="avc1.4d401f">
+# <Stream: itag="244" mime_type="video/webm" res="480p" fps="30fps" vcodec="vp9">
+# <Stream: itag="134" mime_type="video/mp4" res="360p" fps="30fps" vcodec="avc1.4d401e">
+# <Stream: itag="243" mime_type="video/webm" res="360p" fps="30fps" vcodec="vp9">
+# <Stream: itag="133" mime_type="video/mp4" res="240p" fps="30fps" vcodec="avc1.4d4015">
+# <Stream: itag="242" mime_type="video/webm" res="240p" fps="30fps" vcodec="vp9">
+# <Stream: itag="160" mime_type="video/mp4" res="144p" fps="30fps" vcodec="avc1.4d400c">
+# <Stream: itag="278" mime_type="video/webm" res="144p" fps="30fps" vcodec="vp9">
+# <Stream: itag="140" mime_type="audio/mp4" abr="128kbps" acodec="mp4a.40.2">
+# <Stream: itag="171" mime_type="audio/webm" abr="128kbps" acodec="vorbis">
+# <Stream: itag="249" mime_type="audio/webm" abr="50kbps" acodec="opus">
+# <Stream: itag="250" mime_type="audio/webm" abr="70kbps" acodec="opus">
+# <Stream: itag="251" mime_type="audio/webm" abr="160kbps" acodec="opus">
+
+def makeMoiveFor4k(ptitle,videoType = '1080p',outpth = 'out',videoFmt = '.webm'):
+
+    if not os.path.exists('tmp'):
+        os.mkdir('tmp')
+
+    if (not os.path.exists('out')) and outpth == 'out':
+        os.mkdir('out')
+        
+    # savename = ptitle.replace('"','').replace("'","").replace('“','').replace('”', '').replace('’', '')
+    cmd = u'/usr/local/bin/ffmpeg -i "%s/video%s" -i "audio/audio.mp4" -vcodec copy -acodec copy "tmp/output%s"'%(videoType,videoFmt,videoFmt)
+    print cmd
+    os.system(cmd)
+
+    cmd = 'mv "tmp/output%s" "%s/%s%s"'%(videoFmt,outpth,ptitle,videoFmt)
+    print cmd
+    os.system(cmd)
+
+    if os.path.exists('tmp/output.mp4'):
+        os.remove('tmp/output.mp4')
+
+
+def downloadWithURLFor4K(pURL = 'https://www.youtube.com/watch?v=cmSbXsFE3l8',outpth = 'out'):
+    yt = YouTube(pURL)
+    alllist = yt.streams.all()
+
+    videowebms = {}
+    videomp4s = {}
+
+    # streamstmp = [s for s in alllist]
+    for x in alllist:
+        print x
+        print type(x.resolution),x.resolution
+        if x.resolution and x.resolution[-1] == 'p' and x.mime_type == 'video/webm':
+            videowebms[int(x.resolution[:-1])] = x
+
+        if x.resolution and x.resolution[-1] == 'p' and x.mime_type == 'video/mp4':
+            videomp4s[int(x.resolution[:-1])] = x
+
+    ks = list(videowebms.keys())
+    ks.sort(reverse = True)
+    print ks
+
+    ks2 = list(videomp4s.keys())
+    ks2.sort(reverse = True)
+    print ks2
+
+    pvalue = max(ks[0], ks2[0])
+
+    videoStream = None
+
+    videopstr = ''
+    vodeotype = ''
+
+    if ks2[0] >= ks[0]:
+        videopstr = str(ks2[0]) + 'p'
+        vodeotype = '.mp4'
+        videoStream = videomp4s[ks2[0]]
+    else:
+        videopstr = str(ks[0]) + 'p'
+        vodeotype = '.webm'
+        videoStream = videowebms[ks[0]]
+
+    abr128k = yt.streams.filter(abr="128kbps", file_extension='mp4').first()
+
+    # print p1080.player_config_args['title'].encode('utf-8')
+    # print abr128k.player_config_args['title'].encode('utf-8')
+    title = ''
+    audiopth = ''
+
+    if abr128k:
+        # abr128k.player_config_args['title'] = abr128k.player_config_args['title'].encode('utf-8')
+        # 
+        if not os.path.exists('audio'):
+            os.mkdir('audio')
+
+        
+        audiopth = 'audio/audio.mp4'
+
+        title = abr128k.player_config_args['title'].encode('utf-8')
+
+        title = title.replace('/','')
+        
+        if isHeaveMp4File(title, outpth):
+            print '(%s) title is heave in %s'%(title,outpth)
+            return
+        if isHeaveMp4FileInMTVDir(title):
+            print '(%s) title is heave in MTV dir(/Volumes/mage/moive/mtv)'%(title)
+            return
+
+        if os.path.exists(audiopth):
+            os.remove(audiopth)
+
+        try:
+            abr128k.player_config_args['title'] = 'audio'
+
+            print 'title:',title
+
+            print 'start downloading audio 128k...'
+
+            abr128k.download('audio')
+
+        except Exception as e:
+
+            print 'download 128 erro,and redownload with other mp4 type'
+
+            abr128k = yt.streams.filter(mime_type="audio/mp4", file_extension='mp4').first()
+
+            abr128k.player_config_args['title'] = 'audio'
+
+            print 'start downloading audio other mp4 type ...'
+
+            abr128k.download('audio')
+        
+    else:
+
+        videoandaudio = yt.streams.first()
+        title = videoandaudio.player_config_args['title'].encode('utf-8')
+
+        title = title.replace('/','')
+
+        print 'title:',title
+
+        if isHeaveMp4File(title, outpth):
+            print '(%s) title is heave in %s'%(title,outpth)
+            return
+        if isHeaveMp4FileInMTVDir(title):
+            print '(%s) title is heave in MTV dir(/Volumes/mage/moive/mtv)'%(title)
+            return
+
+        videoandaudio.player_config_args['title'] = title
+
+        print 'start downloading voide and audio to out ...'
+
+        videoandaudio.download(outpth)
+
+        return
+
+    videopth = ''
+    if videoStream:
+        if not os.path.exists(videopstr):
+            os.mkdir(videopstr)
+        print 'start downloading video %s...'%(videopstr)
+        
+        title +='_%s'%(videopstr)
+
+        p1080.player_config_args['title'] = 'video'
+
+        videopth = '%s/video%s'%(videopstr,vodeotype)
+
+        if os.path.exists(videopth):
+            os.remove(videopth)
+
+        p1080.download(videopstr)
+
+        makeMoiveFor4k(title,videopstr,outpth,vodeotype)
+    else:
+        print 'not video'
+
+    print audiopth
+    print videopth
+
 def downloadWithURL1Stream(pURL = 'https://www.youtube.com/watch?v=cmSbXsFE3l8',outpth = 'out'):
     yt = YouTube(pURL)
     downvideo = yt.streams.first()
@@ -407,6 +597,8 @@ def main(args):
         print outpth
         if outpth == '1':
             downloadWithURL1Stream(turl)
+        elif outpth == '4k':
+            downloadWithURLFor4K(turl)
         else:
             if turl[:7] == 'http://' or turl[:8] == 'https://':
                 downloadWithURL(turl,outpth)
