@@ -6,12 +6,20 @@
 # @Version : $Id$
 
 import os,sys
+
+import platform
+
 from pytube import YouTube
 
 # print sys.path.append('/usr/local/Cellar')
 
 reload(sys)
 sys.setdefaultencoding( "utf-8" )
+
+
+sysplatform = platform.platform().split('-')[0] 
+
+print 'sys is %s'%(sysplatform)
 
 
 #获取脚本路径
@@ -167,6 +175,9 @@ def downloadWithURL(pURL = 'https://www.youtube.com/watch?v=cmSbXsFE3l8',outpth 
         
         audiopth = 'audio/audio.mp4'
 
+        if os.path.exists(audiopth):
+            os.remove(audiopth)
+
         title = abr128k.player_config_args['title'].encode('utf-8')
 
         title = title.replace('/','')
@@ -234,6 +245,8 @@ def downloadWithURL(pURL = 'https://www.youtube.com/watch?v=cmSbXsFE3l8',outpth 
         p1080.player_config_args['title'] = 'video'
 
         videopth = '1080p/video.mp4'
+        if os.path.exists(videopth):
+            os.remove(videopth)
 
         p1080.download('1080p')
 
@@ -249,6 +262,8 @@ def downloadWithURL(pURL = 'https://www.youtube.com/watch?v=cmSbXsFE3l8',outpth 
         p720.player_config_args['title'] = 'video'
 
         videopth = '720p/video.mp4'
+        if os.path.exists(videopth):
+            os.remove(videopth)
 
         p720.download('720p')
         
@@ -263,6 +278,8 @@ def downloadWithURL(pURL = 'https://www.youtube.com/watch?v=cmSbXsFE3l8',outpth 
         p480.player_config_args['title'] = 'video'
 
         videopth = '480p/video.mp4'
+        if os.path.exists(videopth):
+            os.remove(videopth)
 
         p480.download('480p')
         
@@ -277,6 +294,8 @@ def downloadWithURL(pURL = 'https://www.youtube.com/watch?v=cmSbXsFE3l8',outpth 
         p360.player_config_args['title'] = 'video'
 
         videopth = '360p/video.mp4'
+        if os.path.exists(videopth):
+            os.remove(videopth)
 
         p360.download('360p')
         
@@ -292,6 +311,9 @@ def downloadWithURL(pURL = 'https://www.youtube.com/watch?v=cmSbXsFE3l8',outpth 
 
         videopth = '240p/video.mp4'
 
+        if os.path.exists(videopth):
+            os.remove(videopth)
+
         p240.download('240p')
         
         makeMoive(title,'240p',outpth)
@@ -306,6 +328,9 @@ def downloadWithURL(pURL = 'https://www.youtube.com/watch?v=cmSbXsFE3l8',outpth 
 
         videopth = '144p/video.mp4'
 
+        if os.path.exists(videopth):
+            os.remove(videopth)
+
         p144.download('144p')
         
         makeMoive(title,'144p',outpth)
@@ -315,10 +340,10 @@ def downloadWithURL(pURL = 'https://www.youtube.com/watch?v=cmSbXsFE3l8',outpth 
     print audiopth
     print videopth
 
-    if os.path.exists(audiopth):
-        os.remove(audiopth)
-    if os.path.exists(videopth):
-        os.remove(videopth)
+    # if os.path.exists(audiopth):
+    #     os.remove(audiopth)
+    # if os.path.exists(videopth):
+    #     os.remove(videopth)
 
 # https://www.youtube.com/watch?v=CMXiCR2gQw0
 # <Stream: itag="22" mime_type="video/mp4" res="720p" fps="30fps" vcodec="avc1.64001F" acodec="mp4a.40.2">
