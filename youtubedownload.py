@@ -653,11 +653,11 @@ def main(args):
         print 'python youtubedownload.py 要下载的视频地址 输出的视频目录'
 
 if __name__ == '__main__':
-    # main(sys.argv)
-    print sys.argv[0]
-    pth = sys.argv[0]
-    print os.path.splitext(pth)
-    print os.path.split(pth)
+    main(sys.argv)
+    # print sys.argv[0]
+    # pth = sys.argv[0]
+    # print os.path.splitext(pth)
+    # print os.path.split(pth)
     # downloadWithURL()
     # makeMoive(u'Anna Kendrick - Cups (Pitch Perfect’s “When I’m Gone”)','1080p','out')
     
