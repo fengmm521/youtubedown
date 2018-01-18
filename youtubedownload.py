@@ -24,13 +24,19 @@ print 'sys is %s'%(sysplatform)
 
 
 
-ffmpegpth = os.path.split(sys.argv[0]) + '/'
+ffmpegpth = os.path.split(sys.argv[0])[0]
 
 if sysplatform == 'Windows':
     if sysarch == '64bit':
-        ffmpegpth += 'ffmpeg_win64/ffmpeg.exe'
+        if ffmpegpth != '':
+            ffmpegpth += '/ffmpeg_win64/ffmpeg.exe'
+        else:
+            ffmpegpth = 'ffmpeg_win64/ffmpeg.exe'
     else:
-        ffmpegpth += 'ffmpeg_win32/ffmpeg.exe'
+        if ffmpegpth != '':
+            ffmpegpth += 'ffmpeg_win32/ffmpeg.exe'
+        else:
+            ffmpegpth = 'ffmpeg_win32/ffmpeg.exe'
 elif sysplatform == 'Darwin':
     ffmpegpth += 'ffmpeg_mac/ffmpeg'
 
