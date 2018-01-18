@@ -16,10 +16,25 @@ from pytube import YouTube
 reload(sys)
 sys.setdefaultencoding( "utf-8" )
 
-
+#Windows,Darwin,linux
 sysplatform = platform.platform().split('-')[0] 
+sysarch = platform.architecture()[0]
 
 print 'sys is %s'%(sysplatform)
+
+
+
+ffmpegpth = os.path.split(sys.argv[0]) + '/'
+
+if sysplatform == 'Windows':
+    if sysarch == '64bit':
+        ffmpegpth += 'ffmpeg_win64/ffmpeg.exe'
+    else:
+        ffmpegpth += 'ffmpeg_win32/ffmpeg.exe'
+elif sysplatform == 'Darwin':
+    ffmpegpth += 'ffmpeg_mac/ffmpeg'
+
+print ffmpegpth
 
 
 #获取脚本路径
@@ -117,7 +132,7 @@ def makeMoive(ptitle,videoType = '1080p',outpth = 'out'):
         os.mkdir('out')
         
     # savename = ptitle.replace('"','').replace("'","").replace('“','').replace('”', '').replace('’', '')
-    cmd = u'/usr/local/bin/ffmpeg -i "%s/video.mp4" -i "audio/audio.mp4" -vcodec copy -acodec copy "tmp/output.mp4"'%(videoType)
+    cmd = u'%s -i "%s/video.mp4" -i "audio/audio.mp4" -vcodec copy -acodec copy "tmp/output.mp4"'%(ffmpegpth,videoType)
     print cmd
     os.system(cmd)
 
@@ -383,7 +398,7 @@ def makeMoiveFor4k(ptitle,videoType = '1080p',outpth = 'out',videoFmt = '.webm')
         os.mkdir('out')
         
     # savename = ptitle.replace('"','').replace("'","").replace('“','').replace('”', '').replace('’', '')
-    cmd = u'/usr/local/bin/ffmpeg -i "%s/video%s" -i "audio/audio.mp4" -vcodec copy -acodec copy "tmp/output%s"'%(videoType,videoFmt,videoFmt)
+    cmd = u'%s -i "%s/video%s" -i "audio/audio.mp4" -vcodec copy -acodec copy "tmp/output%s"'%(ffmpegpth,videoType,videoFmt,videoFmt)
     print cmd
     os.system(cmd)
 
@@ -638,7 +653,11 @@ def main(args):
         print 'python youtubedownload.py 要下载的视频地址 输出的视频目录'
 
 if __name__ == '__main__':
-    main(sys.argv)
+    # main(sys.argv)
+    print sys.argv[0]
+    pth = sys.argv[0]
+    print os.path.splitext(pth)
+    print os.path.split(pth)
     # downloadWithURL()
     # makeMoive(u'Anna Kendrick - Cups (Pitch Perfect’s “When I’m Gone”)','1080p','out')
     
