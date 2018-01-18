@@ -26,21 +26,30 @@ print 'sys is %s'%(sysplatform)
 
 ffmpegpth = os.path.split(sys.argv[0])[0]
 
+scrpitepth = ffmpegpth
+
+isWinSystem = False
+
 if sysplatform == 'Windows':
+    isWinSystem = True
     if sysarch == '64bit':
         if ffmpegpth != '':
-            ffmpegpth += '/ffmpeg_win64/ffmpeg.exe'
+            ffmpegpth += '\\ffmpeg_win64\\ffmpeg.exe'
         else:
-            ffmpegpth = 'ffmpeg_win64/ffmpeg.exe'
+            ffmpegpth = 'ffmpeg_win64\\ffmpeg.exe'
     else:
         if ffmpegpth != '':
-            ffmpegpth += 'ffmpeg_win32/ffmpeg.exe'
+            ffmpegpth += 'ffmpeg_win32\\ffmpeg.exe'
         else:
-            ffmpegpth = 'ffmpeg_win32/ffmpeg.exe'
+            ffmpegpth = 'ffmpeg_win32\\ffmpeg.exe'
 elif sysplatform == 'Darwin':
     ffmpegpth += 'ffmpeg_mac/ffmpeg'
 
+
+print scrpitepth
 print ffmpegpth
+
+
 
 
 #获取脚本路径
@@ -137,19 +146,21 @@ def makeMoive(ptitle,videoType = '1080p',outpth = 'out'):
     if (not os.path.exists('out')) and outpth == 'out':
         os.mkdir('out')
         
+    if os.path.exists('tmp/output.mp4'):
+        os.remove('tmp/output.mp4')
+
     # savename = ptitle.replace('"','').replace("'","").replace('“','').replace('”', '').replace('’', '')
     cmd = u'%s -i "%s/video.mp4" -i "audio/audio.mp4" -vcodec copy -acodec copy "tmp/output.mp4"'%(ffmpegpth,videoType)
     print cmd
     os.system(cmd)
 
     cmd = 'mv "tmp/output.mp4" "%s/%s.mp4"'%(outpth,ptitle)
+
+    if isWinSystem:
+        cmd = 'move "tmp\\output.mp4" "%s\\%s.mp4"'%(outpth,ptitle)
+
     print cmd
     os.system(cmd)
-
-    if os.path.exists('tmp/output.mp4'):
-        os.remove('tmp/output.mp4')
-
-        
 
 def isHeaveMp4File(title,savepth):
     fs = getAllExtFile(savepth)
@@ -196,8 +207,8 @@ def downloadWithURL(pURL = 'https://www.youtube.com/watch?v=cmSbXsFE3l8',outpth 
         
         audiopth = 'audio/audio.mp4'
 
-        if os.path.exists(audiopth):
-            os.remove(audiopth)
+        # if os.path.exists(audiopth):
+            # os.remove(audiopth)
 
         title = abr128k.player_config_args['title'].encode('utf-8')
 
@@ -217,7 +228,7 @@ def downloadWithURL(pURL = 'https://www.youtube.com/watch?v=cmSbXsFE3l8',outpth 
 
             print 'start downloading audio 128k...'
 
-            abr128k.download('audio')
+            # abr128k.download('audio')
 
         except Exception as e:
 
@@ -283,10 +294,10 @@ def downloadWithURL(pURL = 'https://www.youtube.com/watch?v=cmSbXsFE3l8',outpth 
         p720.player_config_args['title'] = 'video'
 
         videopth = '720p/video.mp4'
-        if os.path.exists(videopth):
-            os.remove(videopth)
+        # if os.path.exists(videopth):
+            # os.remove(videopth)
 
-        p720.download('720p')
+        # p720.download('720p')
         
         makeMoive(title,'720p',outpth)
     elif p480:
