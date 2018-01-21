@@ -10,7 +10,7 @@ class TextFrame(wx.Frame):
   
     def __init__(self):  
         wx.Frame.__init__(self, None, -1, 'Text Entry Example',   
-                size=(300, 250))  
+                size=(800, 600))  
         panel = wx.Panel(self, -1)   
 
         #对话框用法:http://www.yiibai.com/wxpython/wx_dialog_class.html
@@ -21,7 +21,7 @@ class TextFrame(wx.Frame):
         multiText = wx.TextCtrl(panel, -1,  
                "Here is a looooooooooooooong line of text set in the control.\n\n"  
                "See that it wrapped, and that this line is after a blank",  
-               size=(200, 100), style=wx.TE_MULTILINE) #创建一个文本控件  
+               size=(750, 450), style=wx.TE_MULTILINE) #创建一个文本控件  
         multiText.SetInsertionPoint(0) #设置插入点  
   
         richLabel = wx.StaticText(panel, -1, "Rich Text")  
