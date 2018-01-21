@@ -21,7 +21,8 @@ import threading
 
 import Queue
 
-
+reload(sys)
+sys.setdefaultencoding( "utf-8" )
 
 class WorkerThread(threading.Thread):
     """
@@ -51,7 +52,7 @@ class WorkerThread(threading.Thread):
 
 class UITool ( wx.Frame ):
     def __init__( self, parent  = None):
-        wx.Frame.__init__ ( self, parent, id = wx.ID_ANY, title = wx.EmptyString, pos = wx.DefaultPosition, size = wx.Size( 800,600 ), style = wx.DEFAULT_FRAME_STYLE|wx.TAB_TRAVERSAL )
+        wx.Frame.__init__ ( self, parent, id = wx.ID_ANY, title = wx.EmptyString, pos = wx.DefaultPosition, size = wx.Size( 800,630 ), style = wx.DEFAULT_FRAME_STYLE|wx.TAB_TRAVERSAL )
         
         self.savePth = downtool.get_desktop()
 
@@ -66,6 +67,7 @@ class UITool ( wx.Frame ):
             self.savePth = f.read()
             f.close()
 
+        self.isWinSystem = downtool.isWinSystem
 
         self.queue = Queue.Queue()
             
@@ -280,8 +282,13 @@ class UITool ( wx.Frame ):
     def showMsg(self,msg):
         # self.m_textCtrl2.AppendText(msg)
         # print msg
+        print msg
         self.m_textCtrl2.SetInsertionPointEnd()
-        self.m_textCtrl2.WriteText(msg)
+        if self.isWinSystem:
+            # msgtmp = msg.decode('utf-8').encode('ISO-8859-1')
+            self.m_textCtrl2.WriteText(msg)
+        else:
+            self.m_textCtrl2.WriteText(msg)
 
 
 

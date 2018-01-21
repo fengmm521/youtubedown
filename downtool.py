@@ -70,6 +70,7 @@ def get_desktop():
     else:
         return '~/Desktop/'
 
+print get_desktop()
 
 def isWindowsSys():
     return isWinSystem
@@ -105,11 +106,11 @@ def savelog(logstr):
 
 def showMsg(msg):
     if isWinSystem:
-        msg = '>' + msg + '\n'
-        os_codepage = sys.getfilesystemencoding()
-        outmsg = msg.decode('utf-8').encode(os_codepage)
+        outmsg = msg + '\n'
+        # os_codepage = sys.getfilesystemencoding()
+        # outmsg = msg.decode('utf-8').encode(os_codepage)
         msgtool.showMsgTOUI(outmsg)
-        savelog(msg)
+        savelog(outmsg)
     else:
         outmsg = msg + '\n'
         msgtool.showMsgTOUI(outmsg)
