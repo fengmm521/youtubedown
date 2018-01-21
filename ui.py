@@ -282,7 +282,7 @@ class UITool ( wx.Frame ):
     def showMsg(self,msg):
         # self.m_textCtrl2.AppendText(msg)
         # print msg
-        print msg
+        # print msg
         self.m_textCtrl2.SetInsertionPointEnd()
         if self.isWinSystem:
             # msgtmp = msg.decode('utf-8').encode('ISO-8859-1')
