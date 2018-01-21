@@ -16,11 +16,13 @@ from pytube import YouTube
 reload(sys)
 sys.setdefaultencoding( "utf-8" )
 
+# print sys.getdefaultencoding()
+
 #Windows,Darwin,linux
 sysplatform = platform.platform().split('-')[0] 
 sysarch = platform.architecture()[0]
 
-print 'sys is %s'%(sysplatform)
+
 
 
 
@@ -32,6 +34,7 @@ isWinSystem = False
 
 if sysplatform == 'Windows':
     isWinSystem = True
+    
     if sysarch == '64bit':
         if ffmpegpth != '':
             ffmpegpth += '\\ffmpeg_win64\\ffmpeg.exe'
@@ -46,10 +49,22 @@ elif sysplatform == 'Darwin':
     ffmpegpth += 'ffmpeg_mac/ffmpeg'
 
 
+# print sys.getdefaultencoding()
+
+
+print 'sys is %s'%(sysplatform)
+
 print scrpitepth
 print ffmpegpth
 
 
+def showMsg(msg):
+    if isWinSystem:
+        msg = '>' + msg + '\n'
+        os_codepage = sys.getfilesystemencoding()
+        print msg.decode('utf-8').encode(os_codepage)
+    else:
+        print msg
 
 
 #获取脚本路径
@@ -215,20 +230,24 @@ def downloadWithURL(pURL = 'https://www.youtube.com/watch?v=cmSbXsFE3l8',outpth 
         title = title.replace('/','')
         
         if isHeaveMp4File(title, outpth):
-            print '(%s) title is heave in %s'%(title,outpth)
+            tmpstr = '(%s) Video already exists, please look up under the next directory:\n %s'%(title,outpth)
+            showMsg(tmpstr)
             return
         if isHeaveMp4FileInMTVDir(title):
-            print '(%s) title is heave in MTV dir(/Volumes/mage/moive/mtv)'%(title)
+            showMsg('(%s) title is heave in MTV dir(/Volumes/mage/moive/mtv)'%(title)) 
             return
 
         try:
             abr128k.player_config_args['title'] = 'audio'
 
-            print 'title:',title
+            tmpstr = 'voide name:%s'%(title)
+            showMsg(tmpstr)
+
+            
 
             print 'start downloading audio 128k...'
 
-            # abr128k.download('audio')
+            abr128k.download('audio')
 
         except Exception as e:
 
@@ -266,6 +285,9 @@ def downloadWithURL(pURL = 'https://www.youtube.com/watch?v=cmSbXsFE3l8',outpth 
 
         return
 
+    tmpstr = 'start load vide file...'
+
+
     videopth = ''
     if p1080:
         if not os.path.exists('1080p'):
@@ -294,10 +316,10 @@ def downloadWithURL(pURL = 'https://www.youtube.com/watch?v=cmSbXsFE3l8',outpth 
         p720.player_config_args['title'] = 'video'
 
         videopth = '720p/video.mp4'
-        # if os.path.exists(videopth):
-            # os.remove(videopth)
+        if os.path.exists(videopth):
+            os.remove(videopth)
 
-        # p720.download('720p')
+        p720.download('720p')
         
         makeMoive(title,'720p',outpth)
     elif p480:
@@ -428,6 +450,8 @@ def makeMoiveFor4k(ptitle,videoType = '1080p',outpth = 'out',videoFmt = '.webm')
 
 
 def downloadWithURLFor4K(pURL = 'https://www.youtube.com/watch?v=cmSbXsFE3l8',outpth = 'out'):
+    tmpstr = 'now loading vide message from web...'
+    showMsg(tmpstr)
     yt = YouTube(pURL)
     alllist = yt.streams.all()
 
@@ -501,9 +525,10 @@ def downloadWithURLFor4K(pURL = 'https://www.youtube.com/watch?v=cmSbXsFE3l8',ou
         try:
             abr128k.player_config_args['title'] = 'audio'
 
-            print 'title:',title
-
-            print 'start downloading audio 128k...'
+            tmpstr = 'video name:%s'%(title)
+            showMsg(tmpstr)
+            tmpstr = 'start download audio with 128kbps ...'
+            showMsg(tmpstr)
 
             abr128k.download('audio')
 
@@ -581,7 +606,8 @@ def downloadWithURL1Stream(pURL = 'https://www.youtube.com/watch?v=cmSbXsFE3l8',
     savetmppth = 'tmp/out.mp4'
 
     if isHeaveMp4File(title, outpth):
-        print '(%s) title is heave in %s'%(title,outpth)
+        tmpstr = '(%s) Video already exists, please look up under the next directory:\n %s'%(title,outpth)
+        showMsg(tmpstr)
         return
     if isHeaveMp4FileInMTVDir(title):
         print '(%s) title is heave in MTV dir(/Volumes/mage/moive/mtv)'%(title)
@@ -589,10 +615,10 @@ def downloadWithURL1Stream(pURL = 'https://www.youtube.com/watch?v=cmSbXsFE3l8',
 
     try:
         downvideo.player_config_args['title'] = 'out'
-
-        print 'title:',title
-
-        print 'start downloading Video and Audio ...'
+        tmpstr = '下载的视频名称:%s'%(title)
+        showMsg(tmpstr)
+        tmpstr = '开始下载视频和音频...'
+        showMsg(tmpstr)
 
         downvideo.download('tmp')
 
@@ -616,7 +642,11 @@ def downloadWithURL1Stream(pURL = 'https://www.youtube.com/watch?v=cmSbXsFE3l8',
 #下载一个文件中的所有视频,每一个视频地址一行
 def downLoadWithList(turlsFilePth,outpth = 'out'):
     if not os.path.exists(turlsFilePth):
-        print '下载视频地址列表文件错误.查看是否存在文件:%s'%(turlsFilePth)
+        tmpstr = '.txe file path erro:%s'%(turlsFilePth)
+        if isWinSystem:
+            print tmpstr.decode('utf-8').encode('gb2312')
+        else:
+            print tmpstr
         return
     f = open(turlsFilePth,'r')
     lines = f.readlines()
@@ -637,9 +667,39 @@ def downLoadWithList(turlsFilePth,outpth = 'out'):
         print u
         downloadWithURL(u,outpth)
 
+
+
+
 def main(args):
     turl = ''
-    if len(args) == 2 :
+    if len(args) == 1:
+        tmpstr = "please input vide web address:"
+        showMsg(tmpstr)
+
+        isNotURL = True
+
+        while isNotURL:
+            turl = raw_input()
+            print turl
+            if turl[:7] != 'http://' and turl[:8] != 'https://' and turl[-4:] != '.txt':
+                isNotURL = True
+                tmpstr = "parameter erro,web address is start with http:// or https://"
+                showMsg(tmpstr)
+            else:
+                tmpstr = 'start download video from web.....'
+                showMsg(tmpstr) 
+                print turl
+                isNotURL = False
+
+        if turl[:7] == 'http://' or turl[:8] == 'https://':
+            downloadWithURL(turl)
+        elif turl[-4:] == '.txt':
+            downLoadWithList(turl)
+        else:
+            tmpstr = 'parameter erro!'
+            showMsg(tmpstr)
+
+    elif len(args) == 2:
         turl = args[1]
         print turl
         if turl[:7] == 'http://' or turl[:8] == 'https://':
@@ -662,15 +722,26 @@ def main(args):
             elif turl[-4:] == '.txt':
                 downLoadWithList(turl,outpth)
             else:
-                print '下载地址输入错误:%s'%(turl)
+                tmpstr = 'video address erro:%s'%(turl)
+                showMsg(tmpstr)
     else:
-        print "未输入要下载的视频URL地址,参考下边样式输入参数来下载:\n"
-        print 'python youtubedownload.py 要下载的视频地址'
-        print '或者:'
-        print 'python youtubedownload.py 要下载的视频地址 输出的视频目录'
+        tmpstr = 'parameter erro!'
+        showMsg(tmpstr)
 
 if __name__ == '__main__':
-    main(sys.argv)
+    tmpstr = 'if you heave any quest,you can content me(gp@woodcol.com)。this tool form:\n\nhttps://fengmm521.taobao.com/\n'
+    showMsg(tmpstr)
+    try:
+        main(sys.argv)
+    except Exception, e:
+        print e
+
+    tmpstr = 'thank you use this soft, this tool form web:\nhttps://fengmm521.taobao.com/\n'
+    showMsg(tmpstr)
+    
+    tmpstr = 'voide is download ok,you can find is in out dir.input any key to end.'
+    showMsg(tmpstr)
+    raw_input()
     # print sys.argv[0]
     # pth = sys.argv[0]
     # print os.path.splitext(pth)
