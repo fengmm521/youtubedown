@@ -38,14 +38,14 @@ if sysplatform == 'Windows':
         if ffmpegpth != '':
             ffmpegpth += '\\ffmpeg_win64\\ffmpeg.exe'
         else:
-            ffmpegpth = 'ffmpeg_win64\\ffmpeg.exe'
+            ffmpegpth = '\\ffmpeg_win64\\ffmpeg.exe'
     else:
         if ffmpegpth != '':
-            ffmpegpth += 'ffmpeg_win32\\ffmpeg.exe'
+            ffmpegpth += '\\ffmpeg_win32\\ffmpeg.exe'
         else:
-            ffmpegpth = 'ffmpeg_win32\\ffmpeg.exe'
+            ffmpegpth = '\\ffmpeg_win32\\ffmpeg.exe'
 elif sysplatform == 'Darwin':
-    ffmpegpth += 'ffmpeg_mac/ffmpeg'
+    ffmpegpth += '/ffmpeg_mac/ffmpeg'
 
 
 # print sys.getdefaultencoding()
@@ -216,14 +216,16 @@ def makeMoive(ptitle,videoType = '1080p',outpth = 'out'):
         os.remove('tmp/output.mp4')
 
     # savename = ptitle.replace('"','').replace("'","").replace('“','').replace('”', '').replace('’', '')
-    cmd = u'%s -i "%s/video.mp4" -i "audio/audio.mp4" -vcodec copy -acodec copy "tmp/output.mp4"'%(ffmpegpth,videoType)
+    cmd = '%s -i "%s/video.mp4" -i "audio/audio.mp4" -vcodec copy -acodec copy "tmp/output.mp4"'%(ffmpegpth,videoType)
+    if isWinSystem:
+        cmd = u'%s -i \"%s/video.mp4\" -i \"audio/audio.mp4\" -vcodec copy -acodec copy \"tmp/output.mp4\"'%(ffmpegpth,videoType)
     showMsg(cmd)
     os.system(cmd)
 
-    cmd = 'mv "tmp/output.mp4" "%s/%s.mp4"'%(outpth,ptitle)
+    cmd = 'mv \"tmp/output.mp4\" \"%s/%s.mp4\"'%(outpth,ptitle)
 
     if isWinSystem:
-        cmd = 'move "tmp\\output.mp4" "%s\\%s.mp4"'%(outpth,ptitle)
+        cmd = 'move \"tmp\\output.mp4\" \"%s\\%s.mp4\"'%(outpth,ptitle)
 
     showMsg(cmd)
     os.system(cmd)
