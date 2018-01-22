@@ -263,6 +263,16 @@ def titleRename(pname):
     tmpstr = tmpstr.replace('`','')
     tmpstr = tmpstr.replace(',','')
     tmpstr = tmpstr.replace(':','')
+    tmpstr = tmpstr.replace('[','')
+    tmpstr = tmpstr.replace(']','')
+    tmpstr = tmpstr.replace('{','')
+    tmpstr = tmpstr.replace('}','')
+    tmpstr = tmpstr.replace('=','-')
+    tmpstr = tmpstr.replace('(','-')
+    tmpstr = tmpstr.replace(')','-')
+    tmpstr = tmpstr.replace('#','')
+    tmpstr = tmpstr.replace('@','')
+    tmpstr = tmpstr.replace('!','')
     # /'  '?'  '*'  ':'  '|'  '\'  '<'  '>'
     return tmpstr
 def downloadWithURL(pURL = 'https://www.youtube.com/watch?v=cmSbXsFE3l8',outpth = 'out'):
