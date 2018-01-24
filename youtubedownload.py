@@ -39,14 +39,14 @@ if sysplatform == 'Windows':
         if ffmpegpth != '':
             ffmpegpth += '\\ffmpeg_win64\\ffmpeg.exe'
         else:
-            ffmpegpth = 'ffmpeg_win64\\ffmpeg.exe'
+            ffmpegpth = '\\ffmpeg_win64\\ffmpeg.exe'
     else:
         if ffmpegpth != '':
-            ffmpegpth += 'ffmpeg_win32\\ffmpeg.exe'
+            ffmpegpth += '\\ffmpeg_win32\\ffmpeg.exe'
         else:
-            ffmpegpth = 'ffmpeg_win32\\ffmpeg.exe'
+            ffmpegpth = '\\ffmpeg_win32\\ffmpeg.exe'
 elif sysplatform == 'Darwin':
-    ffmpegpth += 'ffmpeg_mac/ffmpeg'
+    ffmpegpth += '/ffmpeg_mac/ffmpeg'
 
 
 # print sys.getdefaultencoding()
