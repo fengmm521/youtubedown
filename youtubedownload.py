@@ -302,6 +302,7 @@ def downloadWithURL(pURL = 'https://www.youtube.com/watch?v=cmSbXsFE3l8',outpth 
         if os.path.exists(videopth):
             os.remove(videopth)
 
+        print p1080.url
         p1080.download('1080p')
 
         makeMoive(title,'1080p',outpth)
@@ -736,12 +737,12 @@ if __name__ == '__main__':
     except Exception, e:
         print e
 
-    tmpstr = 'thank you use this soft, this tool form web:\nhttps://fengmm521.taobao.com/\n'
-    showMsg(tmpstr)
+    # tmpstr = 'thank you use this soft, this tool form web:\nhttps://fengmm521.taobao.com/\n'
+    # showMsg(tmpstr)
     
-    tmpstr = 'voide is download ok,you can find is in out dir.input any key to end.'
-    showMsg(tmpstr)
-    raw_input()
+    # tmpstr = 'voide is download ok,you can find is in out dir.input any key to end.'
+    # showMsg(tmpstr)
+    # raw_input()
     # print sys.argv[0]
     # pth = sys.argv[0]
     # print os.path.splitext(pth)

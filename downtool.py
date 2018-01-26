@@ -344,11 +344,11 @@ def downloadWithURL(pURL = 'https://www.youtube.com/watch?v=cmSbXsFE3l8',outpth 
 
             showMsg(tmpstr)
 
-
             abr128k.download('audio')
 
         except Exception as e:
 
+            print e
             showMsg('128kbps音频不存在，将下载其他码率音频文件')
 
             abr128k = yt.streams.filter(mime_type="audio/mp4", file_extension='mp4').first()

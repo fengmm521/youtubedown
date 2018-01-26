@@ -1,130 +1,31 @@
-https://www.youtube.com/watch?v=wdgzU_84VMg
-
-https://www.youtube.com/watch?v=kNbH8Y1HgQQ
-
+https://www.youtube.com/watch?v=NGLxoKOvzu4&index=21&list=RDPMivT7MJ41M
 开始获取,视频网址
-
-https://www.youtube.com/watch?v=wdgzU_84VMg
-
+https://www.youtube.com/watch?v=NGLxoKOvzu4&index=21&list=RDPMivT7MJ41M
 的视频信息...
-
-<Stream: itag="43" mime_type="video/webm" res="360p" fps="30fps" vcodec="vp8.0" acodec="vorbis">
-
-<Stream: itag="18" mime_type="video/mp4" res="360p" fps="30fps" vcodec="avc1.42001E" acodec="mp4a.40.2">
-
-<Stream: itag="36" mime_type="video/3gpp" res="240p" fps="30fps" vcodec="mp4v.20.3" acodec="mp4a.40.2">
-
-<Stream: itag="17" mime_type="video/3gpp" res="144p" fps="30fps" vcodec="mp4v.20.3" acodec="mp4a.40.2">
-
-<Stream: itag="135" mime_type="video/mp4" res="480p" fps="30fps" vcodec="avc1.4d401e">
-
-<Stream: itag="244" mime_type="video/webm" res="480p" fps="30fps" vcodec="vp9">
-
-<Stream: itag="134" mime_type="video/mp4" res="360p" fps="30fps" vcodec="avc1.4d401e">
-
-<Stream: itag="243" mime_type="video/webm" res="360p" fps="30fps" vcodec="vp9">
-
-<Stream: itag="133" mime_type="video/mp4" res="240p" fps="30fps" vcodec="avc1.4d400d">
-
-<Stream: itag="242" mime_type="video/webm" res="240p" fps="30fps" vcodec="vp9">
-
-<Stream: itag="160" mime_type="video/mp4" res="144p" fps="30fps" vcodec="avc1.4d400c">
-
-<Stream: itag="278" mime_type="video/webm" res="144p" fps="30fps" vcodec="vp9">
-
-<Stream: itag="140" mime_type="audio/mp4" abr="128kbps" acodec="mp4a.40.2">
-
-<Stream: itag="171" mime_type="audio/webm" abr="128kbps" acodec="vorbis">
-
-<Stream: itag="249" mime_type="audio/webm" abr="50kbps" acodec="opus">
-
-<Stream: itag="250" mime_type="audio/webm" abr="70kbps" acodec="opus">
-
-<Stream: itag="251" mime_type="audio/webm" abr="160kbps" acodec="opus">
-
-开始下载音频文件...
-
-视频名称:sphere spins, but in wrong plane; around wrong axis
-
-正在下载码率为128kbps的音频文件...
-
-开始下载视频文件...
-
-下载480p的视频...
-
-.\ffmpeg_win64\ffmpeg.exe -i "480p/video.mp4" -i "audio/audio.mp4" -vcodec copy -acodec copy "tmp/output.mp4"
-
-move "tmp\output.mp4" "C:\Users\mage\Desktop\sphere_spins_but_in_wrong_plane_around_wrong_axis_480p.mp4"
-
-音频临时文件保存在:audio/audio.mp4
-
-视频临时文件保存在:480p/video.mp4
-
-当前视频下载完成
-
-开始获取,视频网址
-
-https://www.youtube.com/watch?v=kNbH8Y1HgQQ
-
-的视频信息...
-
 <Stream: itag="22" mime_type="video/mp4" res="720p" fps="30fps" vcodec="avc1.64001F" acodec="mp4a.40.2">
-
 <Stream: itag="43" mime_type="video/webm" res="360p" fps="30fps" vcodec="vp8.0" acodec="vorbis">
-
 <Stream: itag="18" mime_type="video/mp4" res="360p" fps="30fps" vcodec="avc1.42001E" acodec="mp4a.40.2">
-
 <Stream: itag="36" mime_type="video/3gpp" res="240p" fps="30fps" vcodec="mp4v.20.3" acodec="mp4a.40.2">
-
 <Stream: itag="17" mime_type="video/3gpp" res="144p" fps="30fps" vcodec="mp4v.20.3" acodec="mp4a.40.2">
-
+<Stream: itag="137" mime_type="video/mp4" res="1080p" fps="30fps" vcodec="avc1.640028">
+<Stream: itag="248" mime_type="video/webm" res="1080p" fps="30fps" vcodec="vp9">
 <Stream: itag="136" mime_type="video/mp4" res="720p" fps="30fps" vcodec="avc1.4d401f">
-
 <Stream: itag="247" mime_type="video/webm" res="720p" fps="30fps" vcodec="vp9">
-
-<Stream: itag="135" mime_type="video/mp4" res="480p" fps="30fps" vcodec="avc1.4d401f">
-
+<Stream: itag="135" mime_type="video/mp4" res="480p" fps="30fps" vcodec="avc1.4d401e">
 <Stream: itag="244" mime_type="video/webm" res="480p" fps="30fps" vcodec="vp9">
-
 <Stream: itag="134" mime_type="video/mp4" res="360p" fps="30fps" vcodec="avc1.4d401e">
-
 <Stream: itag="243" mime_type="video/webm" res="360p" fps="30fps" vcodec="vp9">
-
 <Stream: itag="133" mime_type="video/mp4" res="240p" fps="30fps" vcodec="avc1.4d4015">
-
 <Stream: itag="242" mime_type="video/webm" res="240p" fps="30fps" vcodec="vp9">
-
 <Stream: itag="160" mime_type="video/mp4" res="144p" fps="30fps" vcodec="avc1.4d400c">
-
 <Stream: itag="278" mime_type="video/webm" res="144p" fps="30fps" vcodec="vp9">
-
 <Stream: itag="140" mime_type="audio/mp4" abr="128kbps" acodec="mp4a.40.2">
-
 <Stream: itag="171" mime_type="audio/webm" abr="128kbps" acodec="vorbis">
-
 <Stream: itag="249" mime_type="audio/webm" abr="50kbps" acodec="opus">
-
 <Stream: itag="250" mime_type="audio/webm" abr="70kbps" acodec="opus">
-
 <Stream: itag="251" mime_type="audio/webm" abr="160kbps" acodec="opus">
-
 开始下载音频文件...
-
-视频名称:Neodymium Magnets Reaching Terminal Velocity
-
+视频名称:Jason Derulo - Swalla (feat. Nicki Minaj & Ty Dolla $ign) (Official Music Video)
 正在下载码率为128kbps的音频文件...
-
 开始下载视频文件...
-
-下载720p的视频...
-
-.\ffmpeg_win64\ffmpeg.exe -i "720p/video.mp4" -i "audio/audio.mp4" -vcodec copy -acodec copy "tmp/output.mp4"
-
-move "tmp\output.mp4" "C:\Users\mage\Desktop\Neodymium_Magnets_Reaching_Terminal_Velocity_720p.mp4"
-
-音频临时文件保存在:audio/audio.mp4
-
-视频临时文件保存在:720p/video.mp4
-
-当前视频下载完成
-
+下载1080p的视频...
