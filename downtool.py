@@ -45,7 +45,10 @@ if sysplatform == 'Windows':
         else:
             ffmpegpth = '\\ffmpeg_win32\\ffmpeg.exe'
 elif sysplatform == 'Darwin':
-    ffmpegpth += 'ffmpeg_mac/ffmpeg'
+    if ffmpegpth != '':
+        ffmpegpth += '/ffmpeg_mac/ffmpeg'
+    else:
+        ffmpegpth = 'ffmpeg_mac/ffmpeg'
 
 
 # print sys.getdefaultencoding()
@@ -106,15 +109,22 @@ def savelog(logstr):
 
 def showMsg(msg):
     if isWinSystem:
-        outmsg = msg + '\n'
+        
         # os_codepage = sys.getfilesystemencoding()
         # outmsg = msg.decode('utf-8').encode(os_codepage)
-        msgtool.showMsgTOUI(outmsg)
-        savelog(outmsg)
+        if msgtool:
+            outmsg = msg + '\n'
+            msgtool.showMsgTOUI(outmsg)
+            savelog(outmsg)
+        else:
+            print msg
     else:
-        outmsg = msg + '\n'
-        msgtool.showMsgTOUI(outmsg)
-        savelog(msg)
+        if msgtool:
+            outmsg = msg + '\n'
+            msgtool.showMsgTOUI(outmsg)
+            savelog(msg)
+        else:
+            print msg
 
 
 #获取脚本路径
@@ -278,7 +288,8 @@ def titleRename(pname):
     # /'  '?'  '*'  ':'  '|'  '\'  '<'  '>'
     return tmpstr
 def downloadWithURL(pURL = 'https://www.youtube.com/watch?v=cmSbXsFE3l8',outpth = 'out'):
-    msgtool.uitool.showDownStart()
+    if msgtool:
+        msgtool.uitool.showDownStart()
     showMsg('开始获取,视频网址')
     showMsg(pURL)
     showMsg('的视频信息...')
@@ -332,7 +343,8 @@ def downloadWithURL(pURL = 'https://www.youtube.com/watch?v=cmSbXsFE3l8',outpth 
             abr128k.player_config_args['title'] = 'audio'
 
             tmppth = 'audio' + os.sep + 'audio.mp4'
-            msgtool.uitool.showDownAudio(tmppth)
+            if msgtool:
+                msgtool.uitool.showDownAudio(tmppth)
 
             tmpstr = '开始下载音频文件...'
 
@@ -357,7 +369,8 @@ def downloadWithURL(pURL = 'https://www.youtube.com/watch?v=cmSbXsFE3l8',outpth 
 
             showMsg('开始下音频文件...')
             tmppth = 'audio' + os.sep + 'audio.mp4'
-            msgtool.uitool.showDownAudio(tmppth)
+            if msgtool:
+                msgtool.uitool.showDownAudio(tmppth)
 
             abr128k.download('audio')
         
@@ -384,7 +397,8 @@ def downloadWithURL(pURL = 'https://www.youtube.com/watch?v=cmSbXsFE3l8',outpth 
         showMsg(strtmp)
 
         tmppth = outpth + os.sep + title
-        msgtool.uitool.showDownVideo(tmppth)
+        if msgtool:
+            msgtool.uitool.showDownVideo(tmppth)
 
         videoandaudio.download(outpth)
 
@@ -398,7 +412,8 @@ def downloadWithURL(pURL = 'https://www.youtube.com/watch?v=cmSbXsFE3l8',outpth 
         if not os.path.exists('1080p'):
             os.mkdir('1080p')
         videopth = '1080p/video.mp4'
-        msgtool.uitool.showDownVideo(videopth)
+        if msgtool:
+            msgtool.uitool.showDownVideo(videopth)
 
         tmpstr = '下载1080p的视频...'
         showMsg(tmpstr)
@@ -419,7 +434,8 @@ def downloadWithURL(pURL = 'https://www.youtube.com/watch?v=cmSbXsFE3l8',outpth 
             os.mkdir('720p')
 
         videopth = '720p/video.mp4'
-        msgtool.uitool.showDownVideo(videopth)
+        if msgtool:
+            msgtool.uitool.showDownVideo(videopth)
         tmpstr = '下载720p的视频...'
         showMsg(tmpstr)
 
@@ -438,7 +454,8 @@ def downloadWithURL(pURL = 'https://www.youtube.com/watch?v=cmSbXsFE3l8',outpth 
             os.mkdir('480p')
 
         videopth = '480p/video.mp4'
-        msgtool.uitool.showDownVideo(videopth)
+        if msgtool:
+            msgtool.uitool.showDownVideo(videopth)
         tmpstr = '下载480p的视频...'
         showMsg(tmpstr)
 
@@ -458,7 +475,8 @@ def downloadWithURL(pURL = 'https://www.youtube.com/watch?v=cmSbXsFE3l8',outpth 
             os.mkdir('360p')
 
         videopth = '360p/video.mp4'
-        msgtool.uitool.showDownVideo(videopth)
+        if msgtool:
+            msgtool.uitool.showDownVideo(videopth)
         tmpstr = '下载360p的视频...'
         showMsg(tmpstr)
 
@@ -478,7 +496,8 @@ def downloadWithURL(pURL = 'https://www.youtube.com/watch?v=cmSbXsFE3l8',outpth 
             os.mkdir('240p')
 
         videopth = '240p/video.mp4'
-        msgtool.uitool.showDownVideo(videopth)
+        if msgtool:
+            msgtool.uitool.showDownVideo(videopth)
         tmpstr = '下载240p的视频...'
         showMsg(tmpstr)
 
@@ -499,7 +518,8 @@ def downloadWithURL(pURL = 'https://www.youtube.com/watch?v=cmSbXsFE3l8',outpth 
             os.mkdir('144p')
 
         videopth = '144p/video.mp4'
-        msgtool.uitool.showDownVideo(videopth)
+        if msgtool:
+            msgtool.uitool.showDownVideo(videopth)
         tmpstr = '下载144p的视频...'
         showMsg(tmpstr)
 
@@ -820,8 +840,8 @@ def downLoadWithStrList(liststr,countCallBack,outpth = 'out'):
         countstr = '%d/%d'%(downcount,count)
         countCallBack(countstr)
         downloadWithURL(u,outpth)
-
-    msgtool.uitool.downLoadComplet()
+    if msgtool:
+        msgtool.uitool.downLoadComplet()
 
 def main(args):
     turl = ''
@@ -882,19 +902,20 @@ def main(args):
         showMsg(tmpstr)
 
 if __name__ == '__main__':
-    tmpstr = 'if you heave any quest,you can content me(gp@woodcol.com)。this tool form:\n\nhttps://fengmm521.taobao.com/\n'
-    showMsg(tmpstr)
+    msgtool = None
+    # tmpstr = 'if you heave any quest,you can content me(gp@woodcol.com)。this tool form:\n\nhttps://fengmm521.taobao.com/\n'
+    # showMsg(tmpstr)
     try:
         main(sys.argv)
     except Exception, e:
         print e
 
-    tmpstr = 'thank you use this soft, this tool form web:\nhttps://fengmm521.taobao.com/\n'
+    tmpstr = 'all download complite!'
     showMsg(tmpstr)
     
-    tmpstr = 'voide is download ok,you can find is in out dir.input any key to end.'
-    showMsg(tmpstr)
-    raw_input()
+    # tmpstr = 'voide is download ok,you can find is in out dir.input any key to end.'
+    # showMsg(tmpstr)
+    # raw_input()
     # print sys.argv[0]
     # pth = sys.argv[0]
     # print os.path.splitext(pth)
