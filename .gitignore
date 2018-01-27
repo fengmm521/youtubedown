@@ -6,3 +6,10 @@
 *.pyc
 
 .DS_Store
+pytube
+savepth.txt
+log.txt
+mtvlist.txt
+pytube
+ui.spec
+savepth.txt
