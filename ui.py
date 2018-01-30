@@ -46,7 +46,7 @@ class WorkerThread(threading.Thread):
             downtool.downLoadWithStrList(self.liststr, self.countCallBack,self.savePth)
         except Exception as e:
             self.window.showMsg('下载视频时出错\n')
-
+            self.window.showMsg('%s\n'%(str(e)))
         self.window.downthread = None
 
 

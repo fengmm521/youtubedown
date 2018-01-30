@@ -49,7 +49,8 @@ elif sysplatform == 'Darwin':
         ffmpegpth += '/ffmpeg_mac/ffmpeg'
     else:
         ffmpegpth = 'ffmpeg_mac/ffmpeg'
-
+    cmd = 'chmod 777 %s'%(ffmpegpth)
+    os.system(cmd)
 
 # print sys.getdefaultencoding()
 
@@ -257,7 +258,7 @@ def isHeaveMp4FileInMTVDir(title):
 
 def titleRename(pname):
     tmpstr = pname.replace('/','')
-    tmpstr = pname.replace('\\','')
+    tmpstr = tmpstr.replace('\\','')
     tmpstr = tmpstr.replace(' ','_')
     tmpstr = tmpstr.replace(',','')
     tmpstr = tmpstr.replace(';','')
@@ -285,6 +286,8 @@ def titleRename(pname):
     tmpstr = tmpstr.replace('#','')
     tmpstr = tmpstr.replace('@','')
     tmpstr = tmpstr.replace('!','')
+    tmpstr = tmpstr.replace('‘','')
+    tmpstr = tmpstr.replace('’','')
     # /'  '?'  '*'  ':'  '|'  '\'  '<'  '>'
     return tmpstr
 def downloadWithURL(pURL = 'https://www.youtube.com/watch?v=cmSbXsFE3l8',outpth = 'out'):
