@@ -77,6 +77,9 @@ def test():
     print size
 
     # try:
+
+    a = '我是谁。。。'
+    print a.decode('utf-8')
     #     try:
     #         a = 1/0.0
     #     except Exception as e1:

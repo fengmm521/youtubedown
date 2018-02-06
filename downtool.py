@@ -118,7 +118,10 @@ def showMsg(msg):
             msgtool.showMsgTOUI(outmsg)
             savelog(outmsg)
         else:
-            print msg
+            try:
+                print msg.decode('utf-8')
+            except Exception, e:
+                print 'in windows system chinese is not show'
     else:
         if msgtool:
             outmsg = msg + '\n'
