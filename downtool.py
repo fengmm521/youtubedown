@@ -103,10 +103,12 @@ if os.path.exists('log.txt'):
     os.remove('log.txt')
 
 def savelog(logstr):
-    f = open('log.txt','a')
-    outstr = logstr + '\n'
-    f.write(outstr)
-    f.close()
+
+    if isWinSystem:
+        f = open('log.txt','a')
+        outstr = logstr + '\n'
+        f.write(outstr)
+        f.close()
 
 def showMsg(msg):
     if isWinSystem:

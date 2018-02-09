@@ -4,7 +4,7 @@ block_cipher = None
 
 
 a = Analysis(['ui.py'],
-             pathex=['E:\\os\\Github\\youtubedown'],
+             pathex=['/Users/mage/Documents/github/youtubedown'],
              binaries=[],
              datas=[],
              hiddenimports=[],
@@ -31,3 +31,7 @@ coll = COLLECT(exe,
                strip=False,
                upx=True,
                name='ui')
+app = BUNDLE(coll,
+             name='ui.app',
+             icon=None,
+             bundle_identifier=None)
