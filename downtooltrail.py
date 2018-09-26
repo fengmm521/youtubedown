@@ -25,7 +25,7 @@ sysplatform = platform.platform().split('-')[0]
 sysarch = platform.architecture()[0]
 
 
-isTrailCode = False
+isTrailCode = True
 
 
 ffmpegpth = os.path.split(sys.argv[0])[0]
