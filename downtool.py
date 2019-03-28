@@ -48,12 +48,15 @@ if sysplatform == 'Windows':
         else:
             ffmpegpth = '\\ffmpeg_win32\\ffmpeg.exe'
 elif sysplatform == 'Darwin':
-    if ffmpegpth != '':
-        ffmpegpth += '/ffmpeg_mac/ffmpeg'
+    if not os.path.exists('/usr/local/bin/ffmpeg'):
+        if ffmpegpth != '':
+            ffmpegpth += '/ffmpeg_mac/ffmpeg'
+        else:
+            ffmpegpth = 'ffmpeg_mac/ffmpeg'
+        cmd = 'chmod 777 %s'%(ffmpegpth)
+        os.system(cmd)
     else:
-        ffmpegpth = 'ffmpeg_mac/ffmpeg'
-    cmd = 'chmod 777 %s'%(ffmpegpth)
-    os.system(cmd)
+        ffmpegpth = '/usr/local/bin/ffmpeg'
 
 # print sys.getdefaultencoding()
 
