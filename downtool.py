@@ -263,9 +263,10 @@ def isHeaveMp4File(title,savepth):
 
 def isHeaveMp4FileInMTVDir(title):
     fs = getAllExtFile('/Volumes/mage/moive/mtv')
-    for f in fs:
-        if f[2].find(title) != -1:
-            return True
+    if fs:
+        for f in fs:
+            if f[2].find(title) != -1:
+                return True
     return False
 
 def titleRename(pname):
