@@ -59,7 +59,8 @@ elif sysplatform == 'Darwin':
         ffmpegpth = '/usr/local/bin/ffmpeg'
 
 # print sys.getdefaultencoding()
-
+else:
+    ffmpegpth = '/usr/bin/ffmpeg'
 
 print 'sys is %s'%(sysplatform)
 
